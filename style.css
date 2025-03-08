@@ -1634,30 +1634,32 @@ body::before {
 }
 
 .background-video-container {
-    position: fixed; /* Фиксируем видео */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Устанавливаем на задний план */
-    overflow: hidden; /* Скрываем переполнение */
+    z-index: -1;
+    overflow: hidden;
 }
 
 .background-video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Обеспечиваем покрытие всего экрана */
-    filter: blur(5px); /* Добавляем размытие */
+    object-fit: cover;
+    filter: blur(5px);
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .slogan-content {
     display: flex;
-    justify-content: center; /* Центрируем содержимое */
-    margin-top: 20px; /* Отступ сверху для отделения от слогана */
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .slogan-image-large {
-    width: 120px; /* Увеличенный размер изображения */
-    height: auto; /* Автоматическая высота для сохранения пропорций */
-    margin-left: 20px; /* Отступ слева от изображения */
+    width: 120px;
+    height: auto;
+    margin-left: 20px;
 }
