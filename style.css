@@ -1681,66 +1681,66 @@ body::before {
     gap: 50px;
     position: relative;
     z-index: 2;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.welcome-gif-side {
+    position: relative;
+    flex: 0 0 35%;
+    max-width: 35%;
 }
 
 .welcome-text-side {
-    flex: 0 0 65%;
+    flex: 0 0 60%;
     padding: 30px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 15px;
     border-left: 2px solid rgba(255, 0, 255, 0.4);
     border-right: 2px solid rgba(0, 255, 255, 0.4);
     position: relative;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.welcome-heading {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    position: relative;
+    font-weight: 700;
+    transform: none;
+    text-transform: uppercase;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .welcome-paragraph {
+    font-family: 'Orbitron', sans-serif;
     font-size: 1em;
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.95);
     margin-bottom: 18px;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     text-align: center;
     padding: 0 10px;
     position: relative;
     z-index: 2;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: keep-all;
-    hyphens: none;
+    font-weight: normal;
+    text-shadow: none;
+    transform: none;
+    width: 100%;
     max-width: 100%;
-    display: block;
-}
-
-.welcome-heading {
-    font-size: 2.2em;
-    margin-bottom: 25px;
-    color: #fff;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    font-family: 'Orbitron', sans-serif;
-    text-align: center;
-    position: relative;
-    overflow-wrap: break-word;
+    overflow: visible;
+    white-space: normal;
     word-wrap: break-word;
-    word-break: keep-all;
-    max-width: 100%;
-    padding: 0 10px;
-}
-
-.welcome-heading::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 1px;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(255, 0, 255, 0.5), 
-        rgba(255, 255, 255, 0.7), 
-        rgba(0, 255, 255, 0.5), 
-        transparent);
 }
 
 .simple-divider {
@@ -1802,6 +1802,7 @@ body::before {
     .welcome-gif-side, 
     .welcome-text-side {
         flex: 0 0 100%;
+        max-width: 100%;
         width: 100%;
     }
     
@@ -1828,8 +1829,15 @@ body::before {
         margin: 15px auto 40px;
     }
     
+    .welcome-content-wrapper {
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    
+    .welcome-gif-side,
     .welcome-text-side {
-        padding: 15px;
+        flex: 0 0 100%;
+        max-width: 100%;
         width: 100%;
     }
     
@@ -1867,6 +1875,7 @@ body::before {
 .welcome-gif-side {
     position: relative;
     flex: 0 0 35%;
+    max-width: 35%;
 }
 
 /* Стили для наклейки в правом верхнем углу */
