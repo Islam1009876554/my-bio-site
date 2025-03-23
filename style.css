@@ -75,8 +75,8 @@ body {
 }
 
 .welcome-gif {
-    width: 40%;
-    max-width: 400px;
+    width: 500px;
+    max-width: 90%;
     border-radius: 20px;
     margin: 0 auto;
     margin-top: -20px;
@@ -1017,16 +1017,15 @@ body::before {
 
 /* Обновляем стили для верхних иконок */
 .social-links-container {
-    margin: 40px auto;
-    padding: 20px;
     position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    box-shadow: 
-        0 0 30px rgba(255, 0, 255, 0.3),
-        0 0 60px rgba(0, 255, 255, 0.2);
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 800px;
+    text-align: center;
 }
 
 .social-title {
@@ -1712,6 +1711,9 @@ body::before {
     filter: blur(5px);
     will-change: transform;
     transform: translateZ(0);
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .slogan-content {
