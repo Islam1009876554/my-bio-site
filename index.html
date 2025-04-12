@@ -55,30 +55,37 @@
                 <img src="GIF/RobloxPlayerBeta_Kr8pACkPYg.gif" alt="Welcome gif" class="welcome-gif">
                 <div class="social-icons">
                     <a href="https://vk.com/islam_bekishev22" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon vk holographic pixel-corners">
+                        <div class="social-icon vk holographic">
                             <img src="images/icons/vk-social-network-logo.png" alt="VK">
                             <span class="social-hover-text">VKontakte</span>
                         </div>
                     </a>
                     
                     <a href="https://www.instagram.com/is_bekishev/" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon instagram holographic pixel-corners">
+                        <div class="social-icon instagram holographic">
                             <img src="images/icons/instagram.png" alt="Instagram">
                             <span class="social-hover-text">Instagram</span>
                         </div>
                     </a>
                     
                     <a href="https://t.me/is_bekishev" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon telegram holographic pixel-corners">
+                        <div class="social-icon telegram holographic">
                             <img src="images/icons/telegram.png" alt="Telegram">
                             <span class="social-hover-text">Telegram</span>
                         </div>
                     </a>
                     
                     <a href="https://www.roblox.com/users/107641273/profile" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon roblox holographic pixel-corners">
+                        <div class="social-icon roblox holographic">
                             <img src="images/icons/roblox.png" alt="Roblox">
                             <span class="social-hover-text">Roblox</span>
+                        </div>
+                    </a>
+                    
+                    <a href="https://www.tiktok.com/@is_bekishev" class="social-icon-wrapper" target="_blank">
+                        <div class="social-icon tiktok holographic">
+                            <img src="images/icons/tik-tok.png" alt="TikTok">
+                            <span class="social-hover-text">TikTok</span>
                         </div>
                     </a>
                 </div>
@@ -172,7 +179,7 @@
                         </div>
                         <div class="cyber-buttons">
                             <a href="https://character.ai/chat/N2VTJmRdWmRvQ0BtGWdGvTXMRYDCgiX-e2R8qtZ9aGU" target="_blank" class="cyber-button">
-                                Chat with Akira
+                                <span>Chat with Akira</span>
                             </a>
                         </div>
                         <div class="y2k-tags">
@@ -233,77 +240,5 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        for(let i = 0; i < 50; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.top = Math.random() * 100 + 'vh';
-            star.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(star);
-        }
-
-        const emojis = ['✨', '💫', '🌟', '⭐', '🎮', '💝', '🌸', '🎀'];
-        function createFloatingEmoji() {
-            const emoji = document.createElement('div');
-            emoji.className = 'floating-emoji';
-            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.left = Math.random() * 100 + 'vw';
-            emoji.style.animationDuration = 5 + Math.random() * 10 + 's';
-            document.body.appendChild(emoji);
-            
-            setTimeout(() => {
-                emoji.remove();
-            }, 15000);
-        }
-
-        setInterval(createFloatingEmoji, 3000);
-
-        const canvas = document.getElementById('matrix-rain');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = new Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
-            
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(drawMatrix, 50);
-
-        const hoverSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA');
-        document.querySelectorAll('.cyber-button, .y2k-list li').forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                const sound = hoverSound.cloneNode();
-                sound.volume = 0.1;
-                sound.play();
-            });
-        });
-    </script>
-
-    <script>
-    document.querySelectorAll('.roblox-skin').forEach(img => {
-        img.parentElement.classList.add('glitch-image');
-    });
-    </script>
 </body>
 </html>
