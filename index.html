@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="background-video-container">
-        <video autoplay loop muted playsinline disablePictureInPicture disableRemotePlayback class="background-video">
+        <video autoplay loop muted playsinline disablePictureInPicture disableRemotePlayback class="background-video" preload="metadata">
             <source src="images/video/akiraWallpaper.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
@@ -27,9 +27,9 @@
                 <div class="welcome-content-wrapper">
                     <div class="welcome-gif-side">
                         <div class="welcome-gif-container">
-                            <img src="GIF/ezgif.com-animated-gif-maker.gif" alt="Приветственная гифка" class="welcome-main-gif">
+                            <img src="GIF/ezgif.com-animated-gif-maker.gif" alt="Приветственная гифка" class="welcome-main-gif" loading="lazy">
                             <div class="character-sticker">
-                                <img src="GIF/picmix.com_2069612.gif" alt="Sticker">
+                                <img src="GIF/picmix.com_2069612.gif" alt="Sticker" loading="lazy">
                             </div>
                             <div class="character-sticker-bottom">
                                 <img src="GIF/picmix.com_2448415.gif" alt="Bottom Sticker">
@@ -56,7 +56,7 @@
                 <div class="social-icons">
                     <a href="https://vk.com/islam_bekishev22" class="social-icon-wrapper" target="_blank">
                         <div class="social-icon vk holographic">
-                            <img src="images/icons/vk-social-network-logo.png" alt="VK">
+                            <img src="images/icons/vk-social-network-logo.png" alt="VK" width="32" height="32" loading="lazy">
                             <span class="social-hover-text">VKontakte</span>
                         </div>
                     </a>
@@ -232,8 +232,6 @@
                 <img src="images/QAJFOoMANxnFsImQiSdw.png" alt="" class="skybox skybox-3">
                 <img src="images/QAJFOoMANxnFsImQiSdw.png" alt="" class="skybox skybox-4">
             </div>
-
-            <canvas id="matrix-rain" class="matrix-rain"></canvas>
 
             <div class="crt-overlay"></div>
         </main>

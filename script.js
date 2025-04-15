@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // window.addEventListener('scroll', handleScroll);
     // handleScroll();
 
-    // Оптимизация создания звезд
+    // Оптимизация создания звезд - используем единый фрагмент DOM
     const starsContainer = document.createDocumentFragment();
-    for(let i = 0; i < 50; i++) {
+    const maxStars = 25; // Уменьшаем количество звезд с 50 до 25
+    for(let i = 0; i < maxStars; i++) {
         const star = document.createElement('div');
         star.className = 'star';
         star.style.left = Math.random() * 100 + 'vw';
@@ -30,15 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     document.body.appendChild(starsContainer);
 
-    // Оптимизация плавающих эмодзи
+    // Оптимизация плавающих эмодзи - уменьшаем количество и снижаем частоту появления
     const emojis = ['✨', '💫', '🌟', '⭐', '🎮', '💝', '🌸', '🎀'];
     const emojiContainer = document.createElement('div');
     emojiContainer.className = 'emoji-container';
     document.body.appendChild(emojiContainer);
     
     function createFloatingEmoji() {
-        // Создаем не более 20 эмодзи одновременно
-        if (document.querySelectorAll('.floating-emoji').length > 20) return;
+        // Ограничиваем до 10 эмодзи вместо 20
+        if (document.querySelectorAll('.floating-emoji').length > 10) return;
         
         const emoji = document.createElement('div');
         emoji.className = 'floating-emoji';
@@ -47,80 +48,47 @@ document.addEventListener('DOMContentLoaded', function() {
         emoji.style.animationDuration = 5 + Math.random() * 10 + 's';
         emojiContainer.appendChild(emoji);
         
+        // Удаляем эмодзи после 10 секунд вместо 15
         setTimeout(() => {
             emoji.remove();
-        }, 15000);
+        }, 10000);
     }
 
-    // Уменьшаем частоту создания эмодзи
-    setInterval(createFloatingEmoji, 5000);
+    // Уменьшаем частоту создания эмодзи с 5 до 8 секунд
+    setInterval(createFloatingEmoji, 8000);
 
-    // Оптимизация матричного дождя
-    const canvas = document.getElementById('matrix-rain');
-    const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        drops = new Array(Math.floor(canvas.width / fontSize)).fill(1);
+    // Полностью удаляем матричный дождь - удаляем элемент canvas из DOM
+    const matrixCanvas = document.getElementById('matrix-rain');
+    if (matrixCanvas) {
+        matrixCanvas.remove();
     }
-    
-    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-    const fontSize = 14;
-    let drops;
-    
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    
-    let lastFrameTime = 0;
-    const fpsInterval = 1000/30; // 30 FPS вместо 20мс (50 FPS)
-    
-    function drawMatrix(timestamp) {
-        if (timestamp - lastFrameTime < fpsInterval) {
-            requestAnimationFrame(drawMatrix);
-            return;
-        }
-        
-        lastFrameTime = timestamp;
-        
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.fillStyle = '#0F0';
-        ctx.font = fontSize + 'px monospace';
-        
-        for (let i = 0; i < drops.length; i++) {
-            // Рисуем только видимые символы
-            if (drops[i] * fontSize < canvas.height + fontSize) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-        
-        requestAnimationFrame(drawMatrix);
-    }
-    
-    requestAnimationFrame(drawMatrix);
 
     // Оптимизация звуков
-    const hoverElements = document.querySelectorAll('.cyber-button, .y2k-list li');
     const hoverSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA');
     hoverSound.volume = 0.1;
     
-    hoverElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
+    // Используем делегирование событий для звуков вместо множества слушателей
+    document.body.addEventListener('mouseenter', function(e) {
+        if (e.target.matches('.cyber-button, .y2k-list li')) {
             hoverSound.currentTime = 0;
             hoverSound.play().catch(() => {});
-        });
-    });
+        }
+    }, true);
 
     // Добавление класса glitch-image
     document.querySelectorAll('.roblox-skin').forEach(img => {
         img.parentElement.classList.add('glitch-image');
+    });
+
+    // Добавляем слушатель прокрутки с оптимизацией через throttle
+    let isScrolling = false;
+    window.addEventListener('scroll', function() {
+        if (!isScrolling) {
+            isScrolling = true;
+            window.requestAnimationFrame(function() {
+                // Ваша логика для обработки прокрутки (если нужна)
+                isScrolling = false;
+            });
+        }
     });
 });
