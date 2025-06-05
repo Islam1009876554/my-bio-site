@@ -2195,3 +2195,97 @@ body::before {
   opacity: 0.5;
   pointer-events: none;
 }
+
+/* Стили для секции типа личности ENFJ */
+.personality-section {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(50, 0, 50, 0.85));
+    border: 1px solid rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+}
+
+.personality-type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.mbti-badge {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding: 10px 20px;
+    border-radius: 15px;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+    animation: pulse-glow 2s infinite alternate;
+}
+
+.mbti-title {
+    color: #fff;
+    font-size: 1.3em;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+.personality-photo {
+    border: 3px solid transparent;
+    background: linear-gradient(45deg, #ff00ff, #00ffff) border-box;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+    transition: all 0.3s ease;
+    object-fit: cover;
+    height: 300px;
+}
+
+.personality-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 25px rgba(255, 0, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+    }
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+    .mbti-badge {
+        font-size: 1.2em;
+        padding: 8px 15px;
+    }
+    
+    .mbti-title {
+        font-size: 1.1em;
+    }
+    
+    .personality-photo {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .personality-type {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .mbti-badge {
+        font-size: 1em;
+        padding: 6px 12px;
+    }
+    
+    .mbti-title {
+        font-size: 0.9em;
+    }
+    
+    .personality-photo {
+        height: 200px;
+    }
+}
