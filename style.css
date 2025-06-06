@@ -2200,92 +2200,459 @@ body::before {
 .personality-section {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(50, 0, 50, 0.85));
     border: 1px solid rgba(255, 0, 255, 0.2);
-    box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+    padding: 10px;
 }
 
+/* Меняем порядок элементов для personality-section */
+.personality-section .gif-description-container {
+    flex-direction: row-reverse;
+    gap: 10px;
+    padding: 10px;
+}
+
+/* Стили для контента личности */
+.personality-content {
+    flex: 1;
+    padding-right: 10px;
+}
+
+/* Тип личности ENFJ */
 .personality-type {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    margin: 25px 0;
+    gap: 8px;
+    margin: 8px 0;
     flex-wrap: wrap;
 }
 
+/* Значок MBTI */
 .mbti-badge {
     background: linear-gradient(45deg, #ff00ff, #00ffff);
     color: #000;
     font-weight: bold;
-    font-size: 1.5em;
-    padding: 10px 20px;
-    border-radius: 15px;
-    letter-spacing: 2px;
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+    font-size: 1em;
+    padding: 5px 10px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
     animation: pulse-glow 2s infinite alternate;
 }
 
+/* Название типа личности */
 .mbti-title {
     color: #fff;
-    font-size: 1.3em;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    font-size: 1em;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     letter-spacing: 1px;
 }
 
+/* Обертка для изображения личности */
+.personality-image-wrapper {
+    position: relative;
+    width: 180px !important;
+    height: auto;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+/* Фото личности */
 .personality-photo {
-    border: 3px solid transparent;
+    border: 2px solid transparent;
     background: linear-gradient(45deg, #ff00ff, #00ffff) border-box;
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
     transition: all 0.3s ease;
     object-fit: cover;
-    height: 300px;
+    height: 180px;
+    border-radius: 8px;
 }
 
 .personality-photo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
 }
 
-@keyframes pulse-glow {
+/* Значок MBTI */
+.mbti-badge {
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    color: #000;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 5px 10px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+    animation: pulse-glow 2s infinite alternate;
+}
+
+/* Название типа личности */
+.mbti-title {
+    color: #fff;
+    font-size: 1em;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* Черты личности */
+.personality-traits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Отдельная черта */
+.trait {
+    background: rgba(255, 0, 255, 0.15);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.trait:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 0, 255, 0.25);
+    box-shadow: 0 3px 10px rgba(255, 0, 255, 0.3);
+}
+
+/* Обертка для изображения личности */
+.personality-image-wrapper {
+    position: relative;
+    width: 180px !important;
+    height: auto;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+/* Фото личности */
+.personality-photo {
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, #ff00ff, #00ffff) border-box;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
+    transition: all 0.3s ease;
+    object-fit: cover;
+    height: 180px;
+    border-radius: 8px;
+}
+
+.personality-photo:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+}
+
+/* Анимация плавания для стикеров */
+@keyframes float-sticker {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+/* Позиции для плавающих стикеров */
+.sticker-1 {
+    top: 10%;
+    left: 5%;
+    transform: rotate(-15deg);
+    animation-delay: 0s;
+}
+
+.sticker-2 {
+    top: 15%;
+    right: 7%;
+    transform: rotate(10deg);
+    animation-delay: -2s;
+}
+
+.sticker-3 {
+    bottom: 20%;
+    left: 8%;
+    transform: rotate(5deg);
+    animation-delay: -4s;
+}
+
+.sticker-4 {
+    bottom: 15%;
+    right: 5%;
+    transform: rotate(-8deg);
+    animation-delay: -1s;
+}
+
+.sticker-5 {
+    top: 30%;
+    left: 15%;
+    transform: rotate(12deg);
+    animation-delay: -3s;
+}
+
+.sticker-6 {
+    top: 40%;
+    right: 10%;
+    transform: rotate(-5deg);
+    animation-delay: -2.5s;
+}
+
+.sticker-7 {
+    bottom: 30%;
+    left: 20%;
+    transform: rotate(-10deg);
+    animation-delay: -5s;
+}
+
+.sticker-8 {
+    bottom: 40%;
+    right: 15%;
+    transform: rotate(15deg);
+    animation-delay: -1.5s;
+}
+
+/* Стикеры в разделах */
+.header-sticker {
+    position: absolute;
+    width: 70px;
+    height: auto;
+    top: -20px;
+    right: 20px;
+    transform: rotate(10deg);
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 5s infinite alternate ease-in-out;
+}
+
+.welcome-side-sticker {
+    position: absolute;
+    width: 80px;
+    height: auto;
+    bottom: -30px;
+    right: -20px;
+    transform: rotate(-8deg);
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 6s infinite alternate ease-in-out;
+}
+
+.social-sticker {
+    position: absolute;
+    width: 90px;
+    height: auto;
+    bottom: -30px;
+    left: 30px;
+    transform: rotate(12deg);
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 7s infinite alternate ease-in-out;
+}
+
+.about-sticker {
+    position: absolute;
+    width: 70px;
+    height: auto;
+    top: -25px;
+    right: 10px;
+    transform: rotate(-5deg);
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 5.5s infinite alternate ease-in-out;
+}
+
+.section-sticker {
+    position: absolute;
+    width: 85px;
+    height: auto;
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 6.5s infinite alternate ease-in-out;
+}
+
+.sticker-right {
+    top: 50%;
+    right: -30px;
+    transform: rotate(10deg);
+}
+
+.sticker-left {
+    top: 50%;
+    left: -30px;
+    transform: rotate(-10deg);
+}
+
+.sticker-top-right {
+    top: -30px;
+    right: 30px;
+    transform: rotate(15deg);
+}
+
+.sticker-bottom-left {
+    bottom: -30px;
+    left: 30px;
+    transform: rotate(-12deg);
+}
+
+.sticker-top-left {
+    top: -30px;
+    left: 30px;
+    transform: rotate(-8deg);
+}
+
+.interests-sticker {
+    position: absolute;
+    width: 90px;
+    height: auto;
+    top: -35px;
+    right: 40px;
+    transform: rotate(8deg);
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 6s infinite alternate ease-in-out;
+}
+
+.slogan-corner-sticker {
+    position: absolute;
+    width: 85px;
+    height: auto;
+    bottom: -30px;
+    right: 20px;
+    transform: rotate(-5deg);
+    z-index: 5;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+    animation: rotate-sticker 5.5s infinite alternate ease-in-out;
+}
+
+/* Анимация вращения для стикеров */
+@keyframes rotate-sticker {
     0% {
-        box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+        transform: rotate(var(--rotate-start, -5deg));
     }
     100% {
-        box-shadow: 0 0 25px rgba(255, 0, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+        transform: rotate(var(--rotate-end, 5deg));
     }
 }
 
-/* Медиа-запросы для адаптивности */
+/* Обновленные стили для скайбоксов */
+.skybox-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.skybox {
+    position: absolute;
+    opacity: 0.4;
+    filter: blur(2px);
+    transition: transform 0.5s ease;
+}
+
+.skybox-1 {
+    top: 5%;
+    left: 5%;
+    width: 150px;
+    transform: rotate(-15deg);
+    animation: float 8s infinite ease-in-out;
+}
+
+.skybox-2 {
+    top: 15%;
+    right: 10%;
+    width: 120px;
+    transform: rotate(20deg);
+    animation: float 6s infinite ease-in-out reverse;
+}
+
+.skybox-3 {
+    bottom: 10%;
+    left: 15%;
+    width: 100px;
+    transform: rotate(-10deg);
+    animation: float 7s infinite ease-in-out;
+}
+
+.skybox-4 {
+    bottom: 20%;
+    right: 15%;
+    width: 130px;
+    transform: rotate(15deg);
+    animation: float 9s infinite ease-in-out reverse;
+}
+
+.skybox-5 {
+    top: 30%;
+    left: 25%;
+    width: 90px;
+    transform: rotate(8deg);
+    animation: float 10s infinite ease-in-out;
+    opacity: 0.5;
+}
+
+.skybox-6 {
+    top: 40%;
+    right: 30%;
+    width: 100px;
+    transform: rotate(-12deg);
+    animation: float 7.5s infinite ease-in-out reverse;
+    opacity: 0.5;
+}
+
+.skybox-7 {
+    bottom: 30%;
+    left: 40%;
+    width: 110px;
+    transform: rotate(5deg);
+    animation: float 8.5s infinite ease-in-out;
+    opacity: 0.5;
+}
+
+/* Медиа-запросы для адаптивности стикеров */
 @media (max-width: 768px) {
-    .mbti-badge {
-        font-size: 1.2em;
-        padding: 8px 15px;
+    .floating-sticker {
+        width: 60px;
     }
     
-    .mbti-title {
-        font-size: 1.1em;
+    .header-sticker,
+    .welcome-side-sticker,
+    .social-sticker,
+    .about-sticker,
+    .section-sticker,
+    .interests-sticker,
+    .slogan-corner-sticker {
+        width: 60px;
     }
     
-    .personality-photo {
-        height: 250px;
+    .skybox-5,
+    .skybox-6,
+    .skybox-7 {
+        width: 70px;
     }
 }
 
 @media (max-width: 480px) {
-    .personality-type {
-        flex-direction: column;
-        gap: 10px;
+    .floating-sticker {
+        width: 40px;
     }
     
-    .mbti-badge {
-        font-size: 1em;
-        padding: 6px 12px;
+    .header-sticker,
+    .welcome-side-sticker,
+    .social-sticker,
+    .about-sticker,
+    .section-sticker,
+    .interests-sticker,
+    .slogan-corner-sticker {
+        width: 40px;
     }
     
-    .mbti-title {
-        font-size: 0.9em;
-    }
-    
-    .personality-photo {
-        height: 200px;
+    .skybox-5,
+    .skybox-6,
+    .skybox-7 {
+        width: 50px;
     }
 }
