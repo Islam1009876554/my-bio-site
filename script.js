@@ -1,22 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Удаляем код, связанный с фоновыми изображениями
-    // const backgrounds = [ ... ];
-    // backgrounds.forEach((bgPath, index) => { ... });
+    // Оптимизация загрузки GIF изображений
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
     
-    // Удаляем анимацию смены фоновых изображений
-    // const backgroundElements = document.querySelectorAll('.background-image');
-    // let currentBg = 0;
-    // function changeBackground() { ... }
-    // setInterval(changeBackground, 5000);
-    // changeBackground();
+    // Создаем Intersection Observer для ленивой загрузки
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.classList.add('loaded');
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
     
-    // Удаляем проверку загрузки изображений
-    // backgroundElements.forEach(img => { ... });
+    // Наблюдаем за всеми ленивыми изображениями
+    lazyImages.forEach(img => {
+        imageObserver.observe(img);
+        
+        // Добавляем обработчик загрузки для плавного появления
+        img.addEventListener('load', function() {
+            this.style.opacity = '1';
+        });
+    });
     
-    // Удаляем код, связанный с видимостью элемента
-    // const profileSection = document.querySelector('.profile-section');
-    // window.addEventListener('scroll', handleScroll);
-    // handleScroll();
+    // Предзагрузка критичных GIF после загрузки страницы
+    setTimeout(() => {
+        const criticalGifs = [
+            'GIF/ezgif.com-animated-gif-maker.gif',
+            'GIF/picmix.com_2069612.gif',
+            'GIF/picmix.com_2448415.gif'
+        ];
+        
+        criticalGifs.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }, 1000);
 
     // Оптимизация создания звезд - используем единый фрагмент DOM
     const starsContainer = document.createDocumentFragment();
