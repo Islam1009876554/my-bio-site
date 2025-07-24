@@ -20,11 +20,40 @@
         </video>
     </div>
 
+    <!-- Навигационное меню -->
+    <nav class="cyber-nav">
+        <div class="nav-container">
+            <div class="nav-logo">AKIRA</div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#interests" class="nav-link">Interests</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button class="effects-toggle" id="effectsToggle" title="Toggle Effects">✨</button>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
     <div class="site-content">
         <main class="main-content">
-            <div class="header-gif-container">
+            <div class="header-gif-container" id="home">
                 <div class="welcome-banner">
-                    <span class="welcome-text-en sliding-text">✧ Welcome to My World ✧</span>
+                    <div class="virtual-mouse" id="virtualMouse">
+                        <div class="mouse-cursor">
+                            <img src="images/стрелка пиксельная.png" alt="Cursor" class="pixel-cursor">
+                        </div>
+                        <div class="mouse-trail"></div>
+                        <div class="click-effect" id="clickEffect"></div>
+                    </div>
+                    <div class="typing-line" id="typingLine">
+                        <span class="welcome-text-en sliding-text" id="welcomeText"></span>
+                        <div class="typing-cursor" id="typingCursor">|</div>
+                    </div>
                 </div>
             </div>
 
@@ -55,7 +84,7 @@
                 </div>
             </div>
 
-            <div class="social-links-container fade-in">
+            <div class="social-links-container fade-in" id="contact">
                 <h3 class="social-title glowing-text">✧ Find Me Here ✧</h3>
                 <img src="GIF/RobloxPlayerBeta_Kr8pACkPYg.gif" alt="Welcome gif" class="welcome-gif" loading="lazy"
                     decoding="async">
@@ -99,7 +128,7 @@
                 </div>
             </div>
 
-            <div class="about-header">
+            <div class="about-header" id="about">
                 <div class="header-text-container">
                     <div class="about-text">✧ About Me ✧</div>
                     <div class="welcome-text">WELCOME BACK, MY FRIENDS</div>
@@ -223,7 +252,7 @@
                 </div>
             </div>
 
-            <div class="interests-section">
+            <div class="interests-section" id="interests">
                 <h3 class="y2k-subtitle">✧ My Interests ✧</h3>
                 <div class="interests-grid">
                     <div class="interest-item">
@@ -241,6 +270,74 @@
                         <span class="interest-icon">🎨</span>
                         <span class="interest-text">Creative Soul</span>
                         <p>Экспериментирую с разными стилями, создаю контент и развиваю свое творческое видение.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="y2k-divider"></div>
+
+            <!-- Новая секция навыков -->
+            <div class="skills-section fade-in">
+                <h3 class="y2k-subtitle neon-text">✧ Skills & Achievements ✧</h3>
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h4 class="skill-category-title">🎯 Gaming Skills</h4>
+                        <div class="skill-bars">
+                            <div class="skill-bar">
+                                <span class="skill-name">Evade Mastery</span>
+                                <div class="skill-progress">
+                                    <div class="skill-fill" data-skill="95"></div>
+                                </div>
+                                <span class="skill-percent">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Strategy Games</span>
+                                <div class="skill-progress">
+                                    <div class="skill-fill" data-skill="88"></div>
+                                </div>
+                                <span class="skill-percent">88%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="skill-category-title">💼 Professional</h4>
+                        <div class="skill-bars">
+                            <div class="skill-bar">
+                                <span class="skill-name">Fashion Styling</span>
+                                <div class="skill-progress">
+                                    <div class="skill-fill" data-skill="92"></div>
+                                </div>
+                                <span class="skill-percent">92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Web Design</span>
+                                <div class="skill-progress">
+                                    <div class="skill-fill" data-skill="85"></div>
+                                </div>
+                                <span class="skill-percent">85%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4 class="skill-category-title">🌟 Personal</h4>
+                        <div class="skill-bars">
+                            <div class="skill-bar">
+                                <span class="skill-name">Communication</span>
+                                <div class="skill-progress">
+                                    <div class="skill-fill" data-skill="96"></div>
+                                </div>
+                                <span class="skill-percent">96%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <span class="skill-name">Creativity</span>
+                                <div class="skill-progress">
+                                    <div class="skill-fill" data-skill="90"></div>
+                                </div>
+                                <span class="skill-percent">90%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,6 +366,19 @@
 
             <div class="crt-overlay"></div>
         </main>
+    </div>
+
+    <!-- Кнопка "Наверх" -->
+    <button class="scroll-to-top" id="scrollToTop">
+        <span>↑</span>
+    </button>
+
+    <!-- Прелоадер -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="cyber-loader"></div>
+            <div class="loading-text">Loading Akira's World...</div>
+        </div>
     </div>
 
     <script src="script.js"></script>
