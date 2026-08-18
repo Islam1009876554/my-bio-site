@@ -4,374 +4,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akira's Corner</title>
-    <link rel="icon" type="image/png"
-        href="images/mysterious_man_in_black_spiky_white_hair_dark_sunglasses_wide-brimmed_black_hat_--5_muscular_athlet_o4oqtl4tv51jzyxw8ekl_3.png">
+    <title>AKIRA — Обо мне</title>
+    <meta name="description" content="Личный сайт Akira: стиль, модельный опыт и характер.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <div class="background-video-container">
-        <video autoplay loop muted playsinline disablePictureInPicture disableRemotePlayback class="background-video"
-            preload="auto" poster="">
-            <source src="images/video/unwatermark_392842750642798601.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
+
+    <!-- Прелоадер -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-logo">AKIRA<span>.</span></div>
+            <div class="preloader-bar"><div class="preloader-fill" id="preloaderFill"></div></div>
+            <div class="preloader-status" id="preloaderStatus">Загрузка…</div>
+        </div>
     </div>
 
-    <!-- Навигационное меню -->
-    <nav class="cyber-nav">
-        <div class="nav-container">
-            <div class="nav-logo">AKIRA</div>
-            <div class="nav-menu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#interests" class="nav-link">Interests</a>
-                <a href="#contact" class="nav-link">Contact</a>
-                <button class="effects-toggle" id="effectsToggle" title="Toggle Effects">✨</button>
-            </div>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+    <!-- Фоновые слои -->
+    <video class="bg-video" id="bgVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="images/video/20260717215904669865.mp4" type="video/mp4">
+    </video>
+    <div class="bg-video-overlay" id="bgVideoOverlay" aria-hidden="true"></div>
+    <canvas id="particles" aria-hidden="true"></canvas>
+    <div class="aurora aurora-1" aria-hidden="true"></div>
+    <div class="aurora aurora-2" aria-hidden="true"></div>
+    <div class="aurora aurora-3" aria-hidden="true"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="crt-overlay" id="crtOverlay" aria-hidden="true"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <!-- Навигация -->
+    <nav class="nav" id="nav">
+        <a class="nav-logo" href="#home">AKIRA<span>.</span></a>
+        <div class="nav-menu" id="navMenu">
+            <a href="#home" class="nav-link active">Главная</a>
+            <a href="#about" class="nav-link">Обо мне</a>
+            <a href="#contact" class="nav-link">Контакты</a>
+        </div>
+        <div class="nav-actions">
+            <button class="effects-toggle active" id="effectsToggle" title="Вкл/выкл эффекты" aria-label="Переключить эффекты">✦</button>
+            <button class="nav-toggle" id="navToggle" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
-    <div class="site-content">
-        <main class="main-content">
-            <div class="header-gif-container" id="home">
-                <div class="welcome-banner">
-                    <div class="virtual-mouse" id="virtualMouse">
-                        <div class="mouse-cursor">
-                            <img src="images/стрелка пиксельная.png" alt="Cursor" class="pixel-cursor">
-                        </div>
-                        <div class="mouse-trail"></div>
-                        <div class="click-effect" id="clickEffect"></div>
+    <main>
+        <!-- ============ HERO ============ -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="hero-badge reveal-hero"><span class="pulse-dot"></span>ЛИЧНЫЙ САЙТ AKIRA</div>
+                <h1 class="hero-title reveal-hero">
+                    <span class="glitch" id="glitchTitle" data-text="WELCOME TO MY WORLD">WELCOME TO MY WORLD</span>
+                </h1>
+                <p class="hero-subtitle reveal-hero">Стиль. Характер. Мода. Этот сайт — обо мне:
+                    кто я, чем занимаюсь и как смотрю на мир.</p>
+                <div class="hero-buttons reveal-hero">
+                    <a href="#about" class="btn btn-primary magnetic"><span>Узнать обо мне</span><i>→</i></a>
+                    <a href="#contact" class="btn btn-ghost magnetic"><span>Найти меня</span></a>
+                </div>
+                <div class="hero-stats reveal-hero">
+                    <div class="stat">
+                        <span class="stat-num">MODEL</span>
+                        <span class="stat-label">Фотомодель</span>
                     </div>
-                    <div class="typing-line" id="typingLine">
-                        <span class="welcome-text-en sliding-text" id="welcomeText"></span>
-                        <div class="typing-cursor" id="typingCursor">|</div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-num">ENFJ</span>
+                        <span class="stat-label">Тип личности</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <span class="stat-num"><span class="counter" data-count="5">0</span></span>
+                        <span class="stat-label">Соцсетей</span>
                     </div>
                 </div>
             </div>
 
-            <div class="welcome-section">
-                <div class="welcome-content-wrapper">
-                    <div class="welcome-gif-side">
-                        <div class="welcome-gif-container">
-                            <img src="GIF/ezgif.com-animated-gif-maker.gif" alt="Приветственная гифка"
-                                class="welcome-main-gif" loading="lazy" decoding="async">
-                            <div class="character-sticker">
-                                <img src="GIF/picmix.com_2069612.gif" alt="Sticker" loading="lazy" decoding="async">
-                            </div>
-                            <div class="character-sticker-bottom">
-                                <img src="GIF/picmix.com_2448415.gif" alt="Bottom Sticker" loading="lazy"
-                                    decoding="async">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="welcome-text-side">
-                        <h2 class="welcome-heading">ДОБРО ПОЖАЛОВАТЬ НА МОЙ САЙТ!</h2>
-                        <div class="simple-divider"></div>
-                        <p class="welcome-paragraph">Здесь вы можете узнать обо мне, моих интересах и увлечениях. Этот
-                            сайт - отражение моей личности и стиля.</p>
-                        <p class="welcome-paragraph">Погрузитесь в мой мир и узнайте, что делает меня особенным!
-                            Исследуйте разделы ниже, чтобы узнать больше о моей жизни, творчестве и увлечениях.</p>
-
-                    </div>
+            <div class="hero-visual reveal-hero">
+                <div class="portrait-frame tilt">
+                    <img src="images/portrait1akira.jfif" alt="Akira — портрет" class="portrait-img">
+                    <div class="frame-scan"></div>
+                    <div class="float-chip chip-1">📸 Фотомодель</div>
+                    <div class="float-chip chip-2">✦ ENFJ</div>
+                    <div class="float-chip chip-3">🎨 Стилист</div>
                 </div>
             </div>
 
-            <div class="social-links-container fade-in" id="contact">
-                <h3 class="social-title glowing-text">✧ Find Me Here ✧</h3>
-                <img src="GIF/RobloxPlayerBeta_Kr8pACkPYg.gif" alt="Welcome gif" class="welcome-gif" loading="lazy"
-                    decoding="async">
-                <div class="social-icons">
-                    <a href="https://vk.com/islam_bekishev22" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon vk holographic">
-                            <img src="images/icons/vk-social-network-logo.png" alt="VK" width="32" height="32"
-                                loading="lazy">
-                            <span class="social-hover-text">VKontakte</span>
-                        </div>
-                    </a>
+            <a href="#welcome" class="scroll-hint" aria-label="Скроллить вниз">
+                <span class="scroll-hint-text">скролль</span>
+                <span class="scroll-hint-line"></span>
+            </a>
+        </section>
 
-                    <a href="https://www.instagram.com/is_bekishev/" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon instagram holographic">
-                            <img src="images/icons/instagram.png" alt="Instagram">
-                            <span class="social-hover-text">Instagram</span>
-                        </div>
-                    </a>
-
-                    <a href="https://t.me/is_bekishev" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon telegram holographic">
-                            <img src="images/icons/telegram.png" alt="Telegram">
-                            <span class="social-hover-text">Telegram</span>
-                        </div>
-                    </a>
-
-                    <a href="https://www.roblox.com/users/107641273/profile" class="social-icon-wrapper"
-                        target="_blank">
-                        <div class="social-icon roblox holographic">
-                            <img src="images/icons/roblox.png" alt="Roblox">
-                            <span class="social-hover-text">Roblox</span>
-                        </div>
-                    </a>
-
-                    <a href="https://www.tiktok.com/@akkira_22" class="social-icon-wrapper" target="_blank">
-                        <div class="social-icon tiktok holographic">
-                            <img src="images/icons/tik-tok.png" alt="TikTok">
-                            <span class="social-hover-text">TikTok</span>
-                        </div>
-                    </a>
-                </div>
+        <!-- Бегущая строка -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>STYLE <i>✦</i> FASHION <i>✦</i> MODEL <i>✦</i> ENFJ <i>✦</i> CREATIVE <i>✦</i> AKIRA <i>✦</i>&nbsp;</span>
+                <span>STYLE <i>✦</i> FASHION <i>✦</i> MODEL <i>✦</i> ENFJ <i>✦</i> CREATIVE <i>✦</i> AKIRA <i>✦</i>&nbsp;</span>
             </div>
+        </div>
 
-            <div class="about-header" id="about">
-                <div class="header-text-container">
-                    <div class="about-text">✧ About Me ✧</div>
-                    <div class="welcome-text">WELCOME BACK, MY FRIENDS</div>
-                </div>
+        <!-- ============ WELCOME ============ -->
+        <section class="section" id="welcome">
+            <div class="section-head reveal">
+                <span class="section-tag">01 // СТАРТ</span>
+                <h2 class="section-title">Добро пожаловать<br>на мой сайт</h2>
             </div>
-
-            <div class="y2k-divider"></div>
-
-            <div class="bottom-section fade-in">
-                <div class="gif-description-container y2k-card">
-                    <div class="gif-wrapper glitch-image">
-                        <img src="GIF/ezgif.com-speed.gif" alt="Aesthetic gif" class="aesthetic-gif" loading="lazy"
-                            decoding="async">
-                    </div>
-                    <div class="description-box">
-                        <h3 class="y2k-subtitle neon-text">✧ Evade ✧</h3>
-                        <div class="description-text y2k-text">
-                            <p>Изначально я лишь изредка играл в Evade, но со временем эта игра захватила меня
-                                полностью.</p>
-                            <p>Теперь я играю регулярно, как в одиночку, так и с друзьями.</p>
-                        </div>
-
+            <div class="glass-card welcome-card reveal">
+                <div class="welcome-photo-wrap">
+                    <img src="images/square1akira.jfif" alt="Akira" class="welcome-photo" loading="lazy">
+                    <div class="welcome-photo-glow" aria-hidden="true"></div>
+                </div>
+                <div class="welcome-text">
+                    <p>Здесь вы можете узнать обо мне, моих интересах и увлечениях. Этот сайт — отражение моей личности и стиля.</p>
+                    <p>Погрузитесь в мой мир и узнайте, что делает меня особенным! Исследуйте разделы ниже, чтобы узнать больше о моей жизни, творчестве и увлечениях.</p>
+                    <div class="chips">
+                        <span class="chip">#моделинг</span>
+                        <span class="chip">#стиль</span>
+                        <span class="chip">#творчество</span>
+                        <span class="chip">#открытость</span>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="y2k-divider"></div>
+        <!-- ============ ABOUT ============ -->
+        <section class="section" id="about">
+            <div class="section-head reveal">
+                <span class="section-tag">02 // ОБО МНЕ</span>
+                <h2 class="section-title">Welcome back,<br>my friends</h2>
+            </div>
 
-            <div class="bottom-section fade-in">
-                <div class="gif-description-container y2k-card">
-                    <div class="gif-wrapper glitch-image">
-                        <img src="GIF/RobloxPlayerBeta_bhdJgu1xcr.gif" alt="Aesthetic gif" class="aesthetic-gif"
-                            loading="lazy" decoding="async">
-                    </div>
-                    <div class="description-box">
-                        <h3 class="y2k-subtitle neon-text">✧ Me? ✧</h3>
-                        <div class="description-text y2k-text">
-                            <p>Я человек с открытым характером, люблю общаться и веселиться с друзьями. Моя жизненная
-                                философия — радоваться каждому моменту и не зацикливаться на мелочах. Я пофигист в
-                                хорошем смысле этого слова: не держу зла и стараюсь наслаждаться жизнью такой, какая она
-                                есть.</p>
-                            <p>Моя открытость и искренность помогают мне легко находить общий язык с людьми, а умение
-                                шутить и рофлить делает общение со мной лёгким и приятным. Я верю, что жизнь — это
-                                череда приключений, и я готов встречать их с улыбкой</p>
-                        </div>
+            <!-- Me? -->
+            <article class="feature-card glass-card reveal tilt">
+                <div class="feature-media feature-media-art">
+                    <div class="art-blob"></div>
+                    <div class="art-emoji">😎</div>
+                    <div class="media-overlay"></div>
+                </div>
+                <div class="feature-body">
+                    <span class="feature-tag">VIBES</span>
+                    <h3 class="feature-title">Me?</h3>
+                    <p>Я человек с открытым характером, люблю общаться и веселиться с друзьями. Моя жизненная философия — радоваться каждому моменту и не зацикливаться на мелочах. Я пофигист в хорошем смысле этого слова: не держу зла и стараюсь наслаждаться жизнью такой, какая она есть.</p>
+                    <p>Моя открытость и искренность помогают мне легко находить общий язык с людьми, а умение шутить и рофлить делает общение со мной лёгким и приятным. Я верю, что жизнь — это череда приключений, и я готов встречать их с улыбкой.</p>
+                </div>
+            </article>
 
+            <!-- Modeling -->
+            <article class="feature-card glass-card feature-reverse reveal tilt">
+                <div class="feature-media">
+                    <!-- 📷 ЗАМЕНИТЕ ЭТОТ БЛОК на своё фото или видео, например:
+                         <img src="assets/modeling.png" alt="Модельный опыт" loading="lazy">
+                         или <video src="assets/modeling.mp4" autoplay muted loop playsinline></video> -->
+                    <div class="media-placeholder">
+                        <span class="media-placeholder-icon">📸</span>
+                        <span class="media-placeholder-text">Ваше фото / видео здесь</span>
                     </div>
                 </div>
-            </div>
+                <div class="feature-body">
+                    <span class="feature-tag">MODELING</span>
+                    <h3 class="feature-title">Модельный опыт</h3>
+                    <p>Я работал в модельном агентстве фотомоделью и моделью — участвовал в фотосессиях и научился уверенно держаться перед камерой.</p>
+                    <p>Этот опыт научил меня главному: уверенность и умение подать себя важнее любой одежды. Камера любит тех, кто не боится быть собой.</p>
+                </div>
+            </article>
 
-            <div class="bottom-section fade-in">
-                <div class="gif-description-container y2k-card">
-                    <div class="gif-wrapper glitch-image vertical-image">
-                        <img src="images/RobloxPlayerBeta_mSr3Z0P7yN.png" alt="Style gif" class="aesthetic-gif"
-                            loading="lazy" decoding="async">
-                    </div>
-                    <div class="description-box">
-                        <h3 class="y2k-subtitle neon-text">✧ Fashion & Style ✧</h3>
-                        <div class="description-text y2k-text">
-                            <p>Многие могут подумать, что мой скин выглядит слишком просто или "нефорски", но это совсем
-                                не так! Как профессиональный стилист и модель, я знаю, что настоящая элегантность
-                                кроется в деталях и умении создавать гармоничные образы.</p>
-                            <p>В моём стиле сочетаются элементы современной моды, аниме эстетики и уличного стиля.
-                                Каждый элемент подобран с особым вниманием, чтобы создать уникальный и стильный образ.
-                                Это не просто одежда - это способ самовыражения.</p>
-                            <p>Мой опыт в модельном бизнесе научил меня, что истинный стиль не кричит о себе, а говорит
-                                шёпотом. Именно поэтому я выбираю элегантные, но при этом запоминающиеся образы.</p>
-                        </div>
-
+            <!-- Fashion & Style -->
+            <article class="feature-card glass-card reveal tilt">
+                <div class="feature-media">
+                    <!-- 📷 ЗАМЕНИТЕ ЭТОТ БЛОК на своё фото или видео, например:
+                         <img src="assets/fashion.png" alt="Fashion & Style" loading="lazy">
+                         или <video src="assets/fashion.mp4" autoplay muted loop playsinline></video> -->
+                    <div class="media-placeholder">
+                        <span class="media-placeholder-icon">👗</span>
+                        <span class="media-placeholder-text">Ваше фото / видео здесь</span>
                     </div>
                 </div>
-            </div>
+                <div class="feature-body">
+                    <span class="feature-tag">STYLE</span>
+                    <h3 class="feature-title">Fashion &amp; Style</h3>
+                    <p>Многие могут подумать, что мой стиль выглядит слишком просто, но это совсем не так! Как стилист и модель, я знаю, что настоящая элегантность кроется в деталях и умении создавать гармоничные образы.</p>
+                    <p>В моём стиле сочетаются элементы современной моды, аниме-эстетики и уличного стиля. Это не просто одежда — это способ самовыражения.</p>
+                    <p>Истинный стиль не кричит о себе, а говорит шёпотом. Именно поэтому я выбираю элегантные, но запоминающиеся образы.</p>
+                </div>
+            </article>
 
-            <div class="y2k-divider"></div>
-
-            <div class="bottom-section fade-in">
-                <div class="gif-description-container y2k-card personality-section">
-                    <div class="description-box personality-content">
-                        <h3 class="y2k-subtitle neon-text">✧ ENFJ ✧</h3>
-                        <div class="personality-type">
-                            <span class="mbti-badge">ENFJ</span>
-                            <span class="mbti-title">Протагонист</span>
-                        </div>
-                        <div class="description-text y2k-text">
-                            <p>Харизматичный лидер, искренне заботящийся о других и помогающий раскрывать их потенциал.
-                            </p>
-                        </div>
+            <!-- ENFJ -->
+            <article class="feature-card glass-card feature-reverse personality-card reveal tilt">
+                <div class="feature-media feature-media-art">
+                    <div class="orbit-wrap">
+                        <div class="orbit orbit-1"></div>
+                        <div class="orbit orbit-2"></div>
+                        <div class="orbit-core">ENFJ</div>
                     </div>
-                    <div class="gif-wrapper glitch-image personality-image-wrapper">
-                        <img src="images/ENFJ.png" alt="Моя личность" class="aesthetic-gif personality-photo"
-                            loading="lazy" decoding="async">
+                    <div class="media-overlay"></div>
+                </div>
+                <div class="feature-body">
+                    <span class="feature-tag">PERSONALITY</span>
+                    <h3 class="feature-title">Протагонист</h3>
+                    <div class="mbti-row">
+                        <span class="mbti-badge">ENFJ</span>
+                        <span class="mbti-title">Протагонист</span>
+                    </div>
+                    <p>Харизматичный лидер, искренне заботящийся о других и помогающий раскрывать их потенциал.</p>
+                </div>
+            </article>
+
+            <!-- Meet Akira AI -->
+            <article class="feature-card glass-card reveal tilt">
+                <div class="feature-media">
+                    <!-- 📷 ЗАМЕНИТЕ ЭТОТ БЛОК на своё фото или видео, например:
+                         <img src="assets/akira-portrait.png" alt="Цифровой двойник Akira" class="holo-img" loading="lazy">
+                         Для голографического эффекта верните после картинки: <div class="holo-scanlines"></div> -->
+                    <div class="media-placeholder">
+                        <span class="media-placeholder-icon">🤖</span>
+                        <span class="media-placeholder-text">Ваше фото / видео здесь</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="y2k-divider"></div>
-
-            <div class="bottom-section fade-in">
-                <div class="gif-description-container y2k-card">
-                    <div class="gif-wrapper glitch-image">
-                        <img src="GIF/ezgif-5e55aeaf0a4907.gif" alt="Aesthetic gif" class="aesthetic-gif" loading="lazy"
-                            decoding="async">
-                    </div>
-                    <div class="description-box">
-                        <h3 class="y2k-subtitle neon-text">✧ Meet Akira ✧</h3>
-                        <div class="description-text y2k-text">
-                            <p>Хей! А знаете что? Вы можете пообщаться со мной в Character AI! Я создал своего цифрового
-                                двойника по имени Akira, который отражает мою личность и стиль общения.</p>
-                            <p>Akira всегда рад новым друзьям и интересным беседам. Заходите поболтать, обсудить игры,
-                                стиль или просто поделиться хорошим настроением!</p>
-                            <p class="character-quote">Модель проявил к тебе интерес</p>
-                        </div>
-                        <div class="cyber-buttons">
-                            <a href="https://character.ai/chat/N2VTJmRdWmRvQ0BtGWdGvTXMRYDCgiX-e2R8qtZ9aGU"
-                                target="_blank" class="cyber-button">
-                                <span>Chat with Akira</span>
-                            </a>
-                        </div>
-
-                    </div>
+                <div class="feature-body">
+                    <span class="feature-tag">AI TWIN</span>
+                    <h3 class="feature-title">Meet Akira</h3>
+                    <p>Хей! А знаете что? Вы можете пообщаться со мной в Character AI! Я создал своего цифрового двойника по имени Akira, который отражает мою личность и стиль общения.</p>
+                    <p>Akira всегда рад новым друзьям и интересным беседам. Заходите поболтать, обсудить игры, стиль или просто поделиться хорошим настроением!</p>
+                    <blockquote class="quote">«Модель проявил к тебе интерес»</blockquote>
+                    <a href="https://character.ai/chat/N2VTJmRdWmRvQ0BtGWdGvTXMRYDCgiX-e2R8qtZ9aGU" target="_blank" rel="noopener" class="btn btn-primary magnetic"><span>Chat with Akira</span><i>↗</i></a>
                 </div>
+            </article>
+        </section>
+
+        <!-- ============ SLOGAN ============ -->
+        <section class="slogan reveal">
+            <div class="slogan-card">
+                <span class="slogan-mark">“</span>
+                <p class="slogan-text">Стиль — это способ сказать,<br>кто ты есть, <em>без слов</em></p>
+                <div class="slogan-line"></div>
             </div>
+        </section>
 
-            <div class="interests-section" id="interests">
-                <h3 class="y2k-subtitle">✧ My Interests ✧</h3>
-                <div class="interests-grid">
-                    <div class="interest-item">
-                        <span class="interest-icon">🎮</span>
-                        <span class="interest-text">Gaming Life</span>
-                        <p>Помимо Evade, играю в множество других игр. Люблю исследовать новые миры и находить секретные
-                            места.</p>
-                    </div>
-                    <div class="interest-item">
-                        <span class="interest-icon">💻</span>
-                        <span class="interest-text">Tech & Design</span>
-                        <p>Создаю уникальные дизайны и работаю над веб-проектами. Технологии - мое второе призвание.</p>
-                    </div>
-                    <div class="interest-item">
-                        <span class="interest-icon">🎨</span>
-                        <span class="interest-text">Creative Soul</span>
-                        <p>Экспериментирую с разными стилями, создаю контент и развиваю свое творческое видение.</p>
-                    </div>
-                </div>
+        <!-- ============ CONTACT ============ -->
+        <section class="section" id="contact">
+            <div class="section-head reveal">
+                <span class="section-tag">03 // КОНТАКТЫ</span>
+                <h2 class="section-title">Find me here</h2>
             </div>
-
-            <div class="y2k-divider"></div>
-
-            <!-- Новая секция навыков -->
-            <div class="skills-section fade-in">
-                <h3 class="y2k-subtitle neon-text">✧ Skills & Achievements ✧</h3>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <h4 class="skill-category-title">🎯 Gaming Skills</h4>
-                        <div class="skill-bars">
-                            <div class="skill-bar">
-                                <span class="skill-name">Evade Mastery</span>
-                                <div class="skill-progress">
-                                    <div class="skill-fill" data-skill="95"></div>
-                                </div>
-                                <span class="skill-percent">95%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <span class="skill-name">Strategy Games</span>
-                                <div class="skill-progress">
-                                    <div class="skill-fill" data-skill="88"></div>
-                                </div>
-                                <span class="skill-percent">88%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h4 class="skill-category-title">💼 Professional</h4>
-                        <div class="skill-bars">
-                            <div class="skill-bar">
-                                <span class="skill-name">Fashion Styling</span>
-                                <div class="skill-progress">
-                                    <div class="skill-fill" data-skill="92"></div>
-                                </div>
-                                <span class="skill-percent">92%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <span class="skill-name">Web Design</span>
-                                <div class="skill-progress">
-                                    <div class="skill-fill" data-skill="85"></div>
-                                </div>
-                                <span class="skill-percent">85%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h4 class="skill-category-title">🌟 Personal</h4>
-                        <div class="skill-bars">
-                            <div class="skill-bar">
-                                <span class="skill-name">Communication</span>
-                                <div class="skill-progress">
-                                    <div class="skill-fill" data-skill="96"></div>
-                                </div>
-                                <span class="skill-percent">96%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <span class="skill-name">Creativity</span>
-                                <div class="skill-progress">
-                                    <div class="skill-fill" data-skill="90"></div>
-                                </div>
-                                <span class="skill-percent">90%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="socials-grid reveal">
+                <a href="https://vk.com/islam_bekishev22" target="_blank" rel="noopener" class="social-card glass-card" style="--brand:#0077FF">
+                    <span class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.12-5.339-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg>
+                    </span>
+                    <span class="social-name">VKontakte</span>
+                    <span class="social-handle">@islam_bekishev22</span>
+                </a>
+                <a href="https://t.me/is_bekishev" target="_blank" rel="noopener" class="social-card glass-card" style="--brand:#229ED9">
+                    <span class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    </span>
+                    <span class="social-name">Telegram</span>
+                    <span class="social-handle">@is_bekishev</span>
+                </a>
+                <a href="https://www.instagram.com/is_bekishev/" target="_blank" rel="noopener" class="social-card glass-card" style="--brand:#E1306C">
+                    <span class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+                    </span>
+                    <span class="social-name">Instagram</span>
+                    <span class="social-handle">@is_bekishev</span>
+                </a>
+                <a href="https://www.tiktok.com/@akkira_22" target="_blank" rel="noopener" class="social-card glass-card" style="--brand:#25F4EE">
+                    <span class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </span>
+                    <span class="social-name">TikTok</span>
+                    <span class="social-handle">@akkira_22</span>
+                </a>
+                <a href="https://www.roblox.com/users/107641273/profile" target="_blank" rel="noopener" class="social-card glass-card" style="--brand:#FF3B3B">
+                    <span class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><g transform="rotate(14 12 12)"><path fill-rule="evenodd" d="M4.5 4.5h15v15h-15zM9.3 9.3v5.4h5.4V9.3z"/></g></svg>
+                    </span>
+                    <span class="social-name">Roblox</span>
+                    <span class="social-handle">ID 107641273</span>
+                </a>
             </div>
+        </section>
+    </main>
 
-            <div class="slogan-section">
-                <div class="slogan-container">
-                    <div class="slogan-text">
-                        "Стиль - это способ сказать, кто ты есть, без слов"
-                    </div>
-                    <div class="slogan-content">
-                        <img src="images/mysterious_man_in_black_spiky_white_hair_dark_sunglasses_wide-brimmed_black_hat_--5_muscular_athlet_ipv23wu4yrzao5pyrd0z_0.png"
-                            alt="Мистический персонаж" class="slogan-image-large">
-                    </div>
-                    <div class="slogan-glow"></div>
-                </div>
-            </div>
+    <footer class="footer">
+        <div class="footer-glitch glitch" data-text="✦ STAY AWESOME ✦">✦ STAY AWESOME ✦</div>
+        <p class="footer-copy">© 2026 AKIRA — сделано с неоном и любовью к деталям</p>
+    </footer>
 
-            <p class="glitch-text">✧ Stay Awesome ✧</p>
-
-            <div class="skybox-container">
-                <img src="images/QAJFOoMANxnFsImQiSdw.png" alt="" class="skybox skybox-1">
-                <img src="images/QAJFOoMANxnFsImQiSdw.png" alt="" class="skybox skybox-2">
-                <img src="images/QAJFOoMANxnFsImQiSdw.png" alt="" class="skybox skybox-3">
-                <img src="images/QAJFOoMANxnFsImQiSdw.png" alt="" class="skybox skybox-4">
-            </div>
-
-            <div class="crt-overlay"></div>
-        </main>
-    </div>
-
-    <!-- Кнопка "Наверх" -->
-    <button class="scroll-to-top" id="scrollToTop">
-        <span>↑</span>
-    </button>
+    <button class="to-top" id="toTop" aria-label="Наверх">↑</button>
 
     <script src="script.js"></script>
 </body>

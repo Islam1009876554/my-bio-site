@@ -1,439 +1,339 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Навигация
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
+/* ============================================================
+   AKIRA — Personal Page
+   ============================================================ */
+(function () {
+    'use strict';
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = window.matchMedia('(hover: none)').matches;
+
+    /* ============ ПРЕЛОАДЕР ============ */
+    const preloader = document.getElementById('preloader');
+    const preloaderFill = document.getElementById('preloaderFill');
+    const preloaderStatus = document.getElementById('preloaderStatus');
+    const statuses = [
+        'Загрузка…',
+        'Ещё чуть-чуть…',
+        'Готовим сайт Akira…',
+        'Готово. Добро пожаловать.'
+    ];
+
+    let progress = 0;
+    const progressTimer = setInterval(() => {
+        progress = Math.min(progress + Math.random() * 22, 96);
+        preloaderFill.style.width = progress + '%';
+        preloaderStatus.textContent = statuses[Math.min(Math.floor(progress / 28), statuses.length - 2)];
+    }, 160);
+
+    function finishPreloader() {
+        clearInterval(progressTimer);
+        preloaderFill.style.width = '100%';
+        preloaderStatus.textContent = statuses[statuses.length - 1];
+        setTimeout(() => {
+            preloader.classList.add('done');
+            document.body.classList.add('loaded');
+            startCounters();
+            startGlitchLoop();
+        }, 420);
+    }
+
+    window.addEventListener('load', () => setTimeout(finishPreloader, 700));
+    // Страховка, если load не сработал
+    setTimeout(() => {
+        if (!document.body.classList.contains('loaded')) finishPreloader();
+    }, 4500);
+
+    /* ============ ФОНОВЫЕ ЧАСТИЦЫ ============ */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let particlesRunning = true;
+    const PARTICLE_COLORS = ['255,43,214', '0,229,255', '139,92,246'];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function initParticles() {
+        const count = Math.min(Math.floor(window.innerWidth / 22), 64);
+        particles = Array.from({ length: count }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.8 + 0.4,
+            vx: (Math.random() - 0.5) * 0.28,
+            vy: (Math.random() - 0.5) * 0.28,
+            color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
+            alpha: Math.random() * 0.5 + 0.15,
+            pulse: Math.random() * Math.PI * 2
+        }));
+    }
+
+    function drawParticles() {
+        if (!particlesRunning || prefersReducedMotion) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.pulse += 0.02;
+            if (p.x < -10) p.x = canvas.width + 10;
+            if (p.x > canvas.width + 10) p.x = -10;
+            if (p.y < -10) p.y = canvas.height + 10;
+            if (p.y > canvas.height + 10) p.y = -10;
+            const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.color},${a})`;
+            ctx.shadowColor = `rgba(${p.color},0.8)`;
+            ctx.shadowBlur = 6;
+            ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(drawParticles);
+    }
+
+    resizeCanvas();
+    initParticles();
+    if (!prefersReducedMotion) drawParticles();
+    window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+    document.addEventListener('visibilitychange', () => {
+        particlesRunning = !document.hidden;
+        if (particlesRunning && !prefersReducedMotion) drawParticles();
+    });
+
+    /* ============ НАВИГАЦИЯ ============ */
+    const nav = document.getElementById('nav');
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Мобильное меню
-    navToggle.addEventListener('click', function () {
+    navToggle.addEventListener('click', () => {
         navToggle.classList.toggle('active');
-        navMenu.classList.toggle('active');
+        navMenu.classList.toggle('open');
     });
 
-    // Закрытие меню при клике на ссылку
     navLinks.forEach(link => {
-        link.addEventListener('click', function () {
+        link.addEventListener('click', () => {
             navToggle.classList.remove('active');
-            navMenu.classList.remove('active');
+            navMenu.classList.remove('open');
         });
     });
 
-    // Активная ссылка при скролле
-    window.addEventListener('scroll', function () {
-        let current = '';
-        const sections = document.querySelectorAll('section, [id]');
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            if (pageYOffset >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // Скрытие/показ навигации при скролле
-    let lastScrollTop = 0;
-    const nav = document.querySelector('.cyber-nav');
-
-    window.addEventListener('scroll', function () {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            nav.style.transform = 'translateY(-100%)';
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 40);
+        if (y > lastScroll && y > 320 && !navMenu.classList.contains('open')) {
+            nav.classList.add('hidden');
         } else {
-            nav.style.transform = 'translateY(0)';
+            nav.classList.remove('hidden');
         }
-        lastScrollTop = scrollTop;
-    });
+        lastScroll = y;
 
-    // Оптимизация загрузки GIF изображений
-    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        // Прогресс скролла
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - doc.clientHeight;
+        document.getElementById('scrollProgress').style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
 
-    // Создаем Intersection Observer для ленивой загрузки
-    const imageObserver = new IntersectionObserver((entries, observer) => {
+        // Кнопка наверх
+        document.getElementById('toTop').classList.toggle('visible', y > 500);
+    }, { passive: true });
+
+    // Активная ссылка по секциям
+    const sections = document.querySelectorAll('section[id]');
+    const sectionObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const img = entry.target;
-                img.classList.add('loaded');
-                observer.unobserve(img);
+                navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
             }
         });
-    }, {
-        threshold: 0.01,
-        rootMargin: '100px'
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => sectionObserver.observe(s));
+
+    document.getElementById('toTop').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Наблюдаем за всеми ленивыми изображениями
-    lazyImages.forEach(img => {
-        imageObserver.observe(img);
-
-        // Добавляем обработчик загрузки для плавного появления
-        img.addEventListener('load', function () {
-            this.style.opacity = '1';
-        });
-    });
-
-    // Предзагрузка критичных GIF
-    const preloadDelay = window.innerWidth > 768 ? 1500 : 3000; // Позже на мобильных
-    setTimeout(() => {
-        const criticalGifs = [
-            'GIF/ezgif.com-animated-gif-maker.gif',
-            'GIF/picmix.com_2069612.gif',
-            'GIF/picmix.com_2448415.gif'
-        ];
-
-        criticalGifs.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
-    }, preloadDelay);
-
-    // Оптимизация создания звезд
-    const starsContainer = document.createDocumentFragment();
-    const maxStars = window.innerWidth > 768 ? 20 : 10; // Меньше звезд на мобильных
-    for (let i = 0; i < maxStars; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = Math.random() * 100 + 'vw';
-        star.style.top = Math.random() * 100 + 'vh';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        starsContainer.appendChild(star);
-    }
-    document.body.appendChild(starsContainer);
-
-    // Оптимизация плавающих эмодзи
-    const emojis = ['✨', '💫', '🌟', '⭐', '🎮', '💝', '🌸', '🎀'];
-    const emojiContainer = document.createElement('div');
-    emojiContainer.className = 'emoji-container';
-    document.body.appendChild(emojiContainer);
-
-    const isMobile = window.innerWidth <= 768;
-    const maxEmojis = isMobile ? 3 : 6; // Меньше эмодзи на мобильных
-    const emojiInterval = isMobile ? 12000 : 8000; // Реже на мобильных
-
-    function createFloatingEmoji() {
-        if (document.querySelectorAll('.floating-emoji').length >= maxEmojis) return;
-
-        const emoji = document.createElement('div');
-        emoji.className = 'floating-emoji';
-        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        emoji.style.left = Math.random() * 100 + 'vw';
-        emoji.style.animationDuration = 8 + Math.random() * 7 + 's';
-        emojiContainer.appendChild(emoji);
-
-        setTimeout(() => {
-            emoji.remove();
-        }, 12000);
-    }
-
-    setInterval(createFloatingEmoji, emojiInterval);
-
-    // Полностью удаляем матричный дождь - удаляем элемент canvas из DOM
-    const matrixCanvas = document.getElementById('matrix-rain');
-    if (matrixCanvas) {
-        matrixCanvas.remove();
-    }
-
-    // Оптимизация звуков
-    const hoverSound = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA');
-    hoverSound.volume = 0.1;
-
-    // Используем делегирование событий для звуков вместо множества слушателей
-    document.body.addEventListener('mouseenter', function (e) {
-        if (e.target.matches('.cyber-button, .y2k-list li')) {
-            hoverSound.currentTime = 0;
-            hoverSound.play().catch(() => { });
-        }
-    }, true);
-
-    // Добавление класса glitch-image
-    document.querySelectorAll('.roblox-skin').forEach(img => {
-        img.parentElement.classList.add('glitch-image');
-    });
-
-    // Кнопка "Наверх"
-    const scrollToTopBtn = document.getElementById('scrollToTop');
-
-    window.addEventListener('scroll', function () {
-        if (window.pageYOffset > 300) {
-            scrollToTopBtn.classList.add('visible');
-        } else {
-            scrollToTopBtn.classList.remove('visible');
-        }
-    });
-
-    scrollToTopBtn.addEventListener('click', function () {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    // Прелоадер удален для ускорения загрузки сайта
-
-    // Анимация появления элементов при скролле
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function (entries) {
+    /* ============ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ============ */
+    const revealObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-
-                // Анимация навыков
-                if (entry.target.classList.contains('skills-section')) {
-                    setTimeout(() => {
-                        animateSkills();
-                    }, 300);
-                }
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    // Наблюдаем за элементами с классом fade-in
-    document.querySelectorAll('.fade-in, .bottom-section, .interest-item').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ============ СЧЁТЧИКИ В HERO ============ */
+    function animateCounter(el) {
+        const target = parseInt(el.dataset.count, 10);
+        const duration = 1400;
+        const start = performance.now();
+        function step(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            el.textContent = Math.round(target * eased);
+            if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    let countersStarted = false;
+    function startCounters() {
+        if (countersStarted) return;
+        countersStarted = true;
+        document.querySelectorAll('.counter').forEach(animateCounter);
+    }
+
+    /* ============ ГЛИТЧ-ЗАГОЛОВОК ============ */
+    const glitchEl = document.getElementById('glitchTitle');
+    const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#アキラ01';
+    const originalText = glitchEl.dataset.text;
+
+    function scrambleOnce() {
+        glitchEl.classList.add('glitching');
+        let frame = 0;
+        const totalFrames = 14;
+        const timer = setInterval(() => {
+            frame++;
+            glitchEl.textContent = originalText.split('').map((ch, i) => {
+                if (ch === ' ') return ' ';
+                if (i < (frame / totalFrames) * originalText.length) return ch;
+                return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+            }).join('');
+            if (frame >= totalFrames) {
+                clearInterval(timer);
+                glitchEl.textContent = originalText;
+                glitchEl.classList.remove('glitching');
+            }
+        }, 40);
+    }
+
+    function startGlitchLoop() {
+        if (prefersReducedMotion) return;
+        setTimeout(scrambleOnce, 1200);
+        setInterval(() => {
+            if (!document.hidden && !document.body.classList.contains('no-effects')) scrambleOnce();
+        }, 6000);
+    }
+
+    glitchEl.addEventListener('mouseenter', () => {
+        if (!prefersReducedMotion) scrambleOnce();
     });
 
-    // Анимация навыков
-    function animateSkills() {
-        const skillFills = document.querySelectorAll('.skill-fill');
-        skillFills.forEach(fill => {
-            const skillLevel = fill.getAttribute('data-skill');
-            fill.style.width = skillLevel + '%';
+    // Глитч для футера при наведении
+    document.querySelectorAll('.footer-glitch').forEach(el => {
+        const text = el.dataset.text;
+        el.addEventListener('mouseenter', () => {
+            let frame = 0;
+            const timer = setInterval(() => {
+                frame++;
+                el.textContent = text.split('').map((ch, i) => {
+                    if (ch === ' ') return ' ';
+                    if (i < (frame / 10) * text.length) return ch;
+                    return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+                }).join('');
+                if (frame >= 10) { clearInterval(timer); el.textContent = text; }
+            }, 40);
+        });
+    });
+
+    /* ============ TILT-КАРТОЧКИ ============ */
+    if (!isTouch && !prefersReducedMotion) {
+        document.querySelectorAll('.tilt').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+            });
         });
     }
 
-    // Переключатель эффектов
+    /* ============ МАГНИТНЫЕ КНОПКИ ============ */
+    if (!isTouch && !prefersReducedMotion) {
+        document.querySelectorAll('.magnetic').forEach(btn => {
+            btn.addEventListener('mousemove', e => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.18}px, ${y * 0.28}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+    }
+
+    /* ============ СВЕЧЕНИЕ ЗА КУРСОРОМ ============ */
+    const cursorGlow = document.getElementById('cursorGlow');
+    if (!isTouch && !prefersReducedMotion) {
+        let gx = window.innerWidth / 2, gy = window.innerHeight / 3;
+        let tx = gx, ty = gy;
+        window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
+        (function glowLoop() {
+            gx += (tx - gx) * 0.08;
+            gy += (ty - gy) * 0.08;
+            cursorGlow.style.left = gx + 'px';
+            cursorGlow.style.top = gy + 'px';
+            requestAnimationFrame(glowLoop);
+        })();
+    } else {
+        cursorGlow.style.display = 'none';
+    }
+
+    /* ============ ПЕРЕКЛЮЧАТЕЛЬ ЭФФЕКТОВ ============ */
     const effectsToggle = document.getElementById('effectsToggle');
-    let effectsEnabled = localStorage.getItem('effects') !== 'false';
+    let effectsEnabled = localStorage.getItem('akira-effects') !== 'off';
 
-    effectsToggle.classList.toggle('active', effectsEnabled);
-
-    effectsToggle.addEventListener('click', function () {
-        effectsEnabled = !effectsEnabled;
-        localStorage.setItem('effects', effectsEnabled);
+    function applyEffectsState() {
+        document.body.classList.toggle('no-effects', !effectsEnabled);
         effectsToggle.classList.toggle('active', effectsEnabled);
+        particlesRunning = effectsEnabled && !document.hidden;
+        if (particlesRunning && !prefersReducedMotion) drawParticles();
+    }
 
-        // Включаем/выключаем анимации
-        const animatedElements = document.querySelectorAll('.floating-emoji, .star, .skybox');
-        animatedElements.forEach(el => {
-            el.style.display = effectsEnabled ? 'block' : 'none';
-        });
+    effectsToggle.addEventListener('click', () => {
+        effectsEnabled = !effectsEnabled;
+        localStorage.setItem('akira-effects', effectsEnabled ? 'on' : 'off');
+        applyEffectsState();
+    });
 
-        // Включаем/выключаем CRT эффект
-        const crtOverlay = document.querySelector('.crt-overlay');
-        if (crtOverlay) {
-            crtOverlay.style.opacity = effectsEnabled ? '0.1' : '0';
+    applyEffectsState();
+
+    /* ============ СТРАХОВКА ДЛЯ МЕДИА ============ */
+    /* Если фото не найдено — показываем аккуратную заглушку */
+    function imageFallback(img) {
+        const ph = document.createElement('div');
+        ph.className = 'media-placeholder' + (img.classList.contains('portrait-img') ? ' media-placeholder-portrait' : '');
+        ph.innerHTML = '<span class="media-placeholder-icon">🖼️</span>' +
+            '<span class="media-placeholder-text">Фото скоро появится</span>';
+        img.replaceWith(ph);
+    }
+
+    document.querySelectorAll('.portrait-img, .welcome-photo').forEach(img => {
+        if (img.complete && img.naturalWidth === 0) {
+            imageFallback(img);
+        } else {
+            img.addEventListener('error', () => imageFallback(img));
         }
     });
 
-    // Применяем настройки эффектов при загрузке
-    if (!effectsEnabled) {
-        const animatedElements = document.querySelectorAll('.floating-emoji, .star, .skybox');
-        animatedElements.forEach(el => {
-            el.style.display = 'none';
-        });
-
-        const crtOverlay = document.querySelector('.crt-overlay');
-        if (crtOverlay) {
-            crtOverlay.style.opacity = '0';
-        }
-    }
-
-    // Добавляем эффект печатной машинки для заголовков
-    function typeWriter(element, text, speed = 100) {
-        let i = 0;
-        element.innerHTML = '';
-
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            }
-        }
-        type();
-    }
-
-    // Анимация виртуальной мыши и печатания
-    function startWelcomeAnimation() {
-        const virtualMouse = document.getElementById('virtualMouse');
-        const welcomeText = document.getElementById('welcomeText');
-        const typingCursor = document.getElementById('typingCursor');
-        const typingLine = document.getElementById('typingLine');
-        const clickEffect = document.getElementById('clickEffect');
-        const originalText = '✧ Welcome to My World ✧';
-        const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?~`абвгдежзийклмнопрстуфхцчшщъыьэюя1234567890';
-
-        if (!virtualMouse) return; // Проверка существования элемента
-
-        // Создаем звук печатания
-        const createTypingSound = () => {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-
-                oscillator.frequency.setValueAtTime(800 + Math.random() * 200, audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
-
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            } catch (e) {
-                // Игнорируем ошибки звука
-            }
+    /* Если видео-фон не найден — прячем его и затемнение */
+    const bgVideo = document.getElementById('bgVideo');
+    if (bgVideo) {
+        const hideBgVideo = () => {
+            bgVideo.style.display = 'none';
+            const ov = document.getElementById('bgVideoOverlay');
+            if (ov) ov.style.display = 'none';
         };
-
-        // Звук клика
-        const createClickSound = () => {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-
-                oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
-
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.05);
-            } catch (e) {
-                // Игнорируем ошибки звука
-            }
-        };
-
-        // Этап 1: Появляются глитч символы
-        setTimeout(() => {
-            typingLine.classList.add('visible');
-            typingCursor.classList.add('visible');
-
-            // Генерируем случайные символы
-            function generateGlitchText() {
-                let glitchText = '';
-                for (let i = 0; i < originalText.length; i++) {
-                    if (originalText[i] === ' ') {
-                        glitchText += ' ';
-                    } else {
-                        glitchText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-                    }
-                }
-                return glitchText;
-            }
-
-            // Анимация глитча
-            let glitchCount = 0;
-            const maxGlitches = 8;
-
-            function animateGlitch() {
-                if (glitchCount < maxGlitches) {
-                    welcomeText.textContent = generateGlitchText();
-                    welcomeText.classList.add('glitch-effect');
-                    createTypingSound();
-                    glitchCount++;
-                    setTimeout(animateGlitch, 200);
-                } else {
-                    // Глитч закончился, ждем появления мыши
-                    welcomeText.classList.remove('glitch-effect');
-                }
-            }
-
-            animateGlitch();
-        }, 800);
-
-        // Этап 2: Показываем мышь после глитча
-        setTimeout(() => {
-            virtualMouse.classList.add('moving');
-        }, 2500);
-
-        // Этап 3: Мышь доехала, делаем клик для очистки
-        setTimeout(() => {
-            virtualMouse.classList.remove('moving');
-            virtualMouse.classList.add('clicking');
-
-            // Эффект клика
-            clickEffect.classList.add('active');
-            createClickSound();
-
-            // Очищаем глитч текст
-            welcomeText.textContent = '';
-            welcomeText.classList.remove('glitch-effect');
-
-            setTimeout(() => {
-                clickEffect.classList.remove('active');
-                virtualMouse.classList.remove('clicking');
-                virtualMouse.classList.add('typing');
-            }, 400);
-
-        }, 4500);
-
-        // Этап 4: Начинаем правильное печатание
-        setTimeout(() => {
-
-            // Печатаем правильный текст по буквам
-            let i = 0;
-            function typeChar() {
-                if (i < originalText.length) {
-                    welcomeText.textContent += originalText.charAt(i);
-
-                    // Добавляем звук печатания
-                    if (originalText.charAt(i).trim() !== '') {
-                        createTypingSound();
-                    }
-
-                    i++;
-
-                    // Умеренная скорость печатания
-                    let delay = 80;
-                    if (originalText.charAt(i - 1) === ' ') delay = 120;
-                    if (originalText.charAt(i - 1) === '✧') delay = 180;
-
-                    delay += Math.random() * 40; // Добавляем случайность
-
-                    setTimeout(typeChar, delay);
-                } else {
-                    // Заканчиваем печатание
-                    setTimeout(() => {
-                        typingCursor.classList.remove('visible');
-                        virtualMouse.classList.remove('typing');
-                        virtualMouse.classList.add('disappearing');
-
-                        // Добавляем финальное свечение к тексту
-                        welcomeText.classList.add('final-glow');
-
-                        // Убираем мышь
-                        setTimeout(() => {
-                            virtualMouse.style.display = 'none';
-                        }, 1500);
-                    }, 1200);
-                }
-            }
-
-            typeChar();
-        }, 5000);
+        const bgSource = bgVideo.querySelector('source');
+        if (bgSource) bgSource.addEventListener('error', hideBgVideo);
+        bgVideo.addEventListener('error', hideBgVideo);
     }
-
-    // Запускаем анимацию приветствия
-    const animationDelay = window.innerWidth > 768 ? 500 : 800;
-    setTimeout(startWelcomeAnimation, animationDelay);
-});
+})();
