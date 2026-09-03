@@ -8,6 +8,12 @@
     <meta name="description" content="Личный сайт Akira: стиль, модельный опыт и характер.">
     <link rel="icon" type="image/jpeg" href="images/square1akira.jfif">
     <link rel="apple-touch-icon" href="images/square1akira.jfif">
+    <meta name="theme-color" content="#050208">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AKIRA — Welcome to my world">
+    <meta property="og:description" content="Стиль. Характер. Мода. Личный сайт Akira: модельный опыт, ENFJ и цифровой двойник.">
+    <meta property="og:image" content="images/portrait1akira.jfif">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -49,8 +55,8 @@
             <a href="#contact" class="nav-link">Контакты</a>
         </div>
         <div class="nav-actions">
-            <button class="effects-toggle active" id="effectsToggle" title="Вкл/выкл эффекты" aria-label="Переключить эффекты">✦</button>
-            <button class="nav-toggle" id="navToggle" aria-label="Меню">
+            <button class="effects-toggle active" id="effectsToggle" title="Вкл/выкл эффекты" aria-label="Переключить эффекты" aria-pressed="true">✦</button>
+            <button class="nav-toggle" id="navToggle" aria-label="Меню" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -61,7 +67,7 @@
         <section class="hero" id="home">
             <div class="hero-content">
                 <div class="hero-badge reveal-hero"><span class="pulse-dot"></span>ЛИЧНЫЙ САЙТ AKIRA</div>
-                <h1 class="hero-title reveal-hero">
+                <h1 class="hero-title reveal-hero" aria-label="Welcome to my world">
                     <span class="glitch" id="glitchTitle" data-text="WELCOME TO MY WORLD">WELCOME TO MY WORLD</span>
                 </h1>
                 <p class="hero-subtitle reveal-hero">Стиль. Характер. Мода. Этот сайт — обо мне:
@@ -136,17 +142,19 @@
             </div>
         </section>
 
-                <!-- ============ ABOUT ============ -->
+        <!-- ============ ABOUT ============ -->
         <section class="section" id="about">
             <div class="section-head reveal">
                 <span class="section-tag">02 // ОБО МНЕ</span>
                 <h2 class="section-title">Welcome back,<br>my friends</h2>
             </div>
 
-            <!-- Me? -->
+                       <!-- Me? -->
             <article class="feature-card glass-card reveal tilt">
                 <div class="feature-media">
-                    <img src="GIF/RobloxPlayerBeta_bhdJgu1xcr.gif" alt="Akira — vibes" loading="lazy">
+                    <video autoplay muted loop playsinline preload="auto" aria-label="Akira — vibes">
+                        <source src="GIF/RobloxPlayerBeta_bhdJgu1xcr.mp4" type="video/mp4">
+                    </video>
                     <div class="media-overlay"></div>
                 </div>
                 <div class="feature-body">

@@ -6,6 +6,7 @@
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isTouch = window.matchMedia('(hover: none)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     /* ============ ПРЕЛОАДЕР ============ */
     const preloader = document.getElementById('preloader');
@@ -38,7 +39,6 @@
     }
 
     window.addEventListener('load', () => setTimeout(finishPreloader, 700));
-    // Страховка, если load не сработал
     setTimeout(() => {
         if (!document.body.classList.contains('loaded')) finishPreloader();
     }, 4500);
@@ -70,7 +70,7 @@
     }
 
     function drawParticles() {
-        if (!particlesRunning || prefersReducedMotion) return;
+        if (!particlesRunning || prefersReducedMotion || isMobile) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (const p of particles) {
             p.x += p.vx;
@@ -108,18 +108,23 @@
     const navLinks = document.querySelectorAll('.nav-link');
 
     navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navMenu.classList.toggle('open');
+        const open = navMenu.classList.toggle('open');
+        navToggle.classList.toggle('active', open);
+        navToggle.setAttribute('aria-expanded', String(open));
     });
 
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             navToggle.classList.remove('active');
             navMenu.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
         });
     });
 
     let lastScroll = 0;
+    const scrollProgress = document.getElementById('scrollProgress');
+    const toTopBtn = document.getElementById('toTop');
+
     window.addEventListener('scroll', () => {
         const y = window.scrollY;
         nav.classList.toggle('scrolled', y > 40);
@@ -130,16 +135,12 @@
         }
         lastScroll = y;
 
-        // Прогресс скролла
         const doc = document.documentElement;
         const max = doc.scrollHeight - doc.clientHeight;
-        document.getElementById('scrollProgress').style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
-
-        // Кнопка наверх
-        document.getElementById('toTop').classList.toggle('visible', y > 500);
+        scrollProgress.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
+        toTopBtn.classList.toggle('visible', y > 500);
     }, { passive: true });
 
-    // Активная ссылка по секциям
     const sections = document.querySelectorAll('section[id]');
     const sectionObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -150,7 +151,7 @@
     }, { rootMargin: '-40% 0px -55% 0px' });
     sections.forEach(s => sectionObserver.observe(s));
 
-    document.getElementById('toTop').addEventListener('click', () => {
+    toTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -192,7 +193,10 @@
     const GLITCH_CHARS = '!<>-_\\/[]{}—=+*^?#アキラ01';
     const originalText = glitchEl.dataset.text;
 
+    let isGlitching = false;
     function scrambleOnce() {
+        if (isGlitching) return;
+        isGlitching = true;
         glitchEl.classList.add('glitching');
         let frame = 0;
         const totalFrames = 14;
@@ -207,6 +211,7 @@
                 clearInterval(timer);
                 glitchEl.textContent = originalText;
                 glitchEl.classList.remove('glitching');
+                isGlitching = false;
             }
         }, 40);
     }
@@ -223,10 +228,12 @@
         if (!prefersReducedMotion) scrambleOnce();
     });
 
-    // Глитч для футера при наведении
     document.querySelectorAll('.footer-glitch').forEach(el => {
         const text = el.dataset.text;
+        let busy = false;
         el.addEventListener('mouseenter', () => {
+            if (busy) return;
+            busy = true;
             let frame = 0;
             const timer = setInterval(() => {
                 frame++;
@@ -235,7 +242,7 @@
                     if (i < (frame / 10) * text.length) return ch;
                     return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
                 }).join('');
-                if (frame >= 10) { clearInterval(timer); el.textContent = text; }
+                if (frame >= 10) { clearInterval(timer); el.textContent = text; busy = false; }
             }, 40);
         });
     });
@@ -243,6 +250,9 @@
     /* ============ TILT-КАРТОЧКИ ============ */
     if (!isTouch && !prefersReducedMotion) {
         document.querySelectorAll('.tilt').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'transform 0.15s ease-out, box-shadow 0.4s ease';
+            });
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -251,6 +261,7 @@
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
+                setTimeout(() => { card.style.transition = ''; }, 200);
             });
         });
     }
@@ -287,6 +298,19 @@
         cursorGlow.style.display = 'none';
     }
 
+    /* ============ ВИДЕО-ФОН ============ */
+    const bgVideo = document.getElementById('bgVideo');
+    if (bgVideo) {
+        const hideBgVideo = () => {
+            bgVideo.style.display = 'none';
+            const ov = document.getElementById('bgVideoOverlay');
+            if (ov) ov.style.display = 'none';
+        };
+        const bgSource = bgVideo.querySelector('source');
+        if (bgSource) bgSource.addEventListener('error', hideBgVideo);
+        bgVideo.addEventListener('error', hideBgVideo);
+    }
+
     /* ============ ПЕРЕКЛЮЧАТЕЛЬ ЭФФЕКТОВ ============ */
     const effectsToggle = document.getElementById('effectsToggle');
     let effectsEnabled = localStorage.getItem('akira-effects') !== 'off';
@@ -294,8 +318,14 @@
     function applyEffectsState() {
         document.body.classList.toggle('no-effects', !effectsEnabled);
         effectsToggle.classList.toggle('active', effectsEnabled);
+        effectsToggle.setAttribute('aria-pressed', String(effectsEnabled));
         particlesRunning = effectsEnabled && !document.hidden;
         if (particlesRunning && !prefersReducedMotion) drawParticles();
+
+        if (bgVideo) {
+            if (effectsEnabled && !isMobile) bgVideo.play().catch(() => {});
+            else bgVideo.pause();
+        }
     }
 
     effectsToggle.addEventListener('click', () => {
@@ -306,8 +336,7 @@
 
     applyEffectsState();
 
-    /* ============ СТРАХОВКА ДЛЯ МЕДИА ============ */
-    /* Если фото не найдено — показываем аккуратную заглушку */
+    /* ============ СТРАХОВКА ДЛЯ КАРТИНОК ============ */
     function imageFallback(img) {
         const ph = document.createElement('div');
         ph.className = 'media-placeholder' + (img.classList.contains('portrait-img') ? ' media-placeholder-portrait' : '');
@@ -323,17 +352,4 @@
             img.addEventListener('error', () => imageFallback(img));
         }
     });
-
-    /* Если видео-фон не найден — прячем его и затемнение */
-    const bgVideo = document.getElementById('bgVideo');
-    if (bgVideo) {
-        const hideBgVideo = () => {
-            bgVideo.style.display = 'none';
-            const ov = document.getElementById('bgVideoOverlay');
-            if (ov) ov.style.display = 'none';
-        };
-        const bgSource = bgVideo.querySelector('source');
-        if (bgSource) bgSource.addEventListener('error', hideBgVideo);
-        bgVideo.addEventListener('error', hideBgVideo);
-    }
 })();
