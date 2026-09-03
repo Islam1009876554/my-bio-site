@@ -316,7 +316,7 @@
         img.replaceWith(ph);
     }
 
-    document.querySelectorAll('.portrait-img, .welcome-photo').forEach(img => {
+    document.querySelectorAll('.portrait-img, .welcome-photo, .feature-media img').forEach(img => {
         if (img.complete && img.naturalWidth === 0) {
             imageFallback(img);
         } else {
